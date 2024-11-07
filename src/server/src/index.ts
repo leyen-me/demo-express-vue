@@ -3,15 +3,13 @@ import { createServer as createViteServer } from "vite";
 import path from "path";
 import fs from "fs";
 
-let app: Express | null = null;
-let NODE_ENV = "production"
+let app = express();
+let NODE_ENV = "production";
 
 async function createServer() {
-  app = express();
-
   const isProduction = NODE_ENV === "production";
   const clientRoot = isProduction
-    ? path.resolve(process.cwd(), "./client")
+    ? path.resolve(process.cwd(), "./dist/client")
     : path.resolve(process.cwd(), "../client");
 
   let vite: any;
@@ -23,7 +21,7 @@ async function createServer() {
     });
     app.use(vite.middlewares);
   } else {
-    app.use(express.static(path.resolve(clientRoot, "dist")));
+    app.use(express.static(clientRoot));
   }
 
   // API 路由
@@ -36,23 +34,13 @@ async function createServer() {
     const url = req.originalUrl;
 
     try {
-      let template;
+      let template = fs.readFileSync(
+        path.resolve(clientRoot, "index.html"),
+        "utf-8"
+      );
       if (!isProduction) {
-        // 读取 index.html
-        template = fs.readFileSync(
-          path.resolve(clientRoot, "index.html"),
-          "utf-8"
-        );
-
-        // 应用 Vite HTML 转换
         template = await vite.transformIndexHtml(url, template);
-      } else {
-        template = fs.readFileSync(
-          path.resolve(clientRoot, "dist/index.html"),
-          "utf-8"
-        );
       }
-
       res.status(200).set({ "Content-Type": "text/html" }).end(template);
     } catch (e) {
       !isProduction && vite.ssrFixStacktrace(e);
@@ -65,11 +53,8 @@ async function createServer() {
   app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}`);
   });
-
-  return app;
 }
 
 createServer();
 
 export default app;
-module.exports = app;
