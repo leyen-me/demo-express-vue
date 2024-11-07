@@ -4,11 +4,12 @@ import path from "path";
 import fs from "fs";
 
 let app: Express | null = null;
+let NODE_ENV = "production"
 
 async function createServer() {
   app = express();
 
-  const isProduction = process.env.NODE_ENV === "production";
+  const isProduction = NODE_ENV === "production";
   const clientRoot = isProduction
     ? path.resolve(process.cwd(), "./client")
     : path.resolve(process.cwd(), "../client");
@@ -71,3 +72,4 @@ async function createServer() {
 createServer();
 
 export default app;
+module.exports = app;

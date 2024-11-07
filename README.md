@@ -1,10 +1,13 @@
-# 项目介绍
+# Demo-Express-Vue
 
-- `DemoExpressVueVercel`是一个全栈项目
-- 将Vue3和Express集成在一起
-- 使用pnpm包管理
-- 全部使用TypeScript调用
-- 也可以很方便的部署到Vercel和Node
+- 一个全栈项目，使用相同的依赖、相同的语言、相同的端口
+- 技术栈，Vue3 + Express + TypeScript + Pnpm
+
+## 开发环境启动
+
+```sh
+pnpm -r 
+```
 
 ## 开发环境启动
 
@@ -45,5 +48,7 @@ pnpm -r install typescript -D
 ## 部署到Vercel
 
 ```sh
+pnpm build
+
 vercel
 ```
