@@ -2,8 +2,16 @@ import express, { Express } from "express";
 import { createServer as createViteServer } from "vite";
 import path from "path";
 import fs from "fs";
+import { cors } from "./middlewares/cors"
 
 let app = express();
+
+// 让接口可以跨域，全栈项目，默认关闭
+app.use(cors(app))
+
+
+
+
 let NODE_ENV = "production";
 
 async function createServer() {
@@ -56,5 +64,3 @@ async function createServer() {
 }
 
 createServer();
-
-export default app;
