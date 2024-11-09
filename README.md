@@ -44,11 +44,3 @@ pnpm --filter server install package-name
 ```sh
 pnpm -r install typescript -D
 ```
-
-## 部署到Vercel
-
-```sh
-pnpm build
-
-vercel
-```
