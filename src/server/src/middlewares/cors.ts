@@ -3,7 +3,7 @@ import ExpressCors from "cors";
 
 export function cors(app: Express) {
   app.use(ExpressCors());
-  return (req: any, res: any, next: any) => {
+  return (req, res, next) => {
     next();
   };
 }
